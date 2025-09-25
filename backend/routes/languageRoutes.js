@@ -27,40 +27,40 @@ router.get('/:langCode', (req, res, next) => {
 }, languageController.getLanguageTranslations);
 
 // PUT /api/languages/:langCode - Create or update language
-router.put('/:langCode', (req, res, next) => {
-  // Validate language code format
-  const { langCode } = req.params;
-  if (!/^[a-z]{2}$/.test(langCode)) {
-    return res.status(400).json({
-      success: false,
-      error: 'Invalid language code format',
-      message: 'Language code must be 2 lowercase letters (e.g., en, hi, ta)'
-    });
-  }
+// router.put('/:langCode', (req, res, next) => {
+//   // Validate language code format
+//   const { langCode } = req.params;
+//   if (!/^[a-z]{2}$/.test(langCode)) {
+//     return res.status(400).json({
+//       success: false,
+//       error: 'Invalid language code format',
+//       message: 'Language code must be 2 lowercase letters (e.g., en, hi, ta)'
+//     });
+//   }
 
-  // Validate request body
-  if (!req.body || Object.keys(req.body).length === 0) {
-    return res.status(400).json({
-      success: false,
-      error: 'Empty request body',
-      message: 'Request body must contain language data'
-    });
-  }
+//   // Validate request body
+//   if (!req.body || Object.keys(req.body).length === 0) {
+//     return res.status(400).json({
+//       success: false,
+//       error: 'Empty request body',
+//       message: 'Request body must contain language data'
+//     });
+//   }
 
-  next();
-}, languageController.upsertLanguage);
+//   next();
+// }, languageController.upsertLanguage);
 
-// DELETE /api/languages/:langCode - Deactivate language
-router.delete('/:langCode', (req, res, next) => {
-  const { langCode } = req.params;
-  if (!/^[a-z]{2}$/.test(langCode)) {
-    return res.status(400).json({
-      success: false,
-      error: 'Invalid language code format'
-    });
-  }
-  next();
-}, languageController.deleteLanguage);
+// // DELETE /api/languages/:langCode - Deactivate language
+// router.delete('/:langCode', (req, res, next) => {
+//   const { langCode } = req.params;
+//   if (!/^[a-z]{2}$/.test(langCode)) {
+//     return res.status(400).json({
+//       success: false,
+//       error: 'Invalid language code format'
+//     });
+//   }
+//   next();
+// }, languageController.deleteLanguage);
 
 // Error handling for this router
 router.use((error, req, res, next) => {

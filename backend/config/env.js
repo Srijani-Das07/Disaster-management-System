@@ -33,9 +33,7 @@ const config = {
     police: process.env.POLICE_NUMBER || '100',
     fire: process.env.FIRE_NUMBER || '101',
     ambulance: process.env.AMBULANCE_NUMBER || '102',
-    disaster: process.env.DISASTER_NUMBER || '108',
-    women: process.env.WOMEN_HELPLINE || '1091',
-    child: process.env.CHILD_HELPLINE || '1098'
+    disaster: process.env.DISASTER_NUMBER || '108'
   },
   
   // Buzzer and notification settings
