@@ -47,7 +47,7 @@ class PushService {
     return sentCount;
   }
 
-  // Send buzzer command for offline devices
+  // Send command to trigger a device's buzzer/vibration
   async sendBuzzerCommand(userId, buzzerConfig) {
     const ws = this.connections.get(userId);
     

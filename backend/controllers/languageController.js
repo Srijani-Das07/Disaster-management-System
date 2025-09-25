@@ -99,110 +99,110 @@ const languageController = {
   },
 
   // Create or update language
-  upsertLanguage: async (req, res) => {
-    try {
-      const { langCode } = req.params;
-      const updateData = req.body;
+  // upsertLanguage: async (req, res) => {
+  //   try {
+  //     const { langCode } = req.params;
+  //     const updateData = req.body;
 
-      // Validate language code
-      if (!/^[a-z]{2}$/.test(langCode)) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid language code format'
-        });
-      }
+  //     // Validate language code
+  //     if (!/^[a-z]{2}$/.test(langCode)) {
+  //       return res.status(400).json({
+  //         success: false,
+  //         error: 'Invalid language code format'
+  //       });
+  //     }
 
-      // Validate required fields
-      const requiredFields = ['name', 'nativeName', 'translations'];
-      const missingFields = requiredFields.filter(field => !updateData[field]);
+  //     // Validate required fields
+  //     const requiredFields = ['name', 'nativeName', 'translations'];
+  //     const missingFields = requiredFields.filter(field => !updateData[field]);
       
-      if (missingFields.length > 0) {
-        return res.status(400).json({
-          success: false,
-          error: 'Missing required fields',
-          missingFields
-        });
-      }
+  //     if (missingFields.length > 0) {
+  //       return res.status(400).json({
+  //         success: false,
+  //         error: 'Missing required fields',
+  //         missingFields
+  //       });
+  //     }
 
-      const language = await Language.findOneAndUpdate(
-        { code: langCode },
-        { ...updateData, code: langCode },
-        { 
-          upsert: true, 
-          new: true, 
-          runValidators: true,
-          setDefaultsOnInsert: true
-        }
-      );
+  //     const language = await Language.findOneAndUpdate(
+  //       { code: langCode },
+  //       { ...updateData, code: langCode },
+  //       { 
+  //         upsert: true, 
+  //         new: true, 
+  //         runValidators: true,
+  //         setDefaultsOnInsert: true
+  //       }
+  //     );
 
-      res.json({
-        success: true,
-        data: language,
-        message: `Language '${langCode}' updated successfully`,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('Upsert language error:', error);
+  //     res.json({
+  //       success: true,
+  //       data: language,
+  //       message: `Language '${langCode}' updated successfully`,
+  //       timestamp: new Date().toISOString()
+  //     });
+  //   } catch (error) {
+  //     console.error('Upsert language error:', error);
       
-      if (error.name === 'ValidationError') {
-        return res.status(400).json({
-          success: false,
-          error: 'Validation error',
-          details: error.errors,
-          message: error.message
-        });
-      }
+  //     if (error.name === 'ValidationError') {
+  //       return res.status(400).json({
+  //         success: false,
+  //         error: 'Validation error',
+  //         details: error.errors,
+  //         message: error.message
+  //       });
+  //     }
 
-      res.status(500).json({
-        success: false,
-        error: 'Failed to update language',
-        message: error.message,
-        timestamp: new Date().toISOString()
-      });
-    }
-  },
+  //     res.status(500).json({
+  //       success: false,
+  //       error: 'Failed to update language',
+  //       message: error.message,
+  //       timestamp: new Date().toISOString()
+  //     });
+  //   }
+  // },
 
-  // Delete language (soft delete by setting isActive to false)
-  deleteLanguage: async (req, res) => {
-    try {
-      const { langCode } = req.params;
+  // // Delete language (soft delete by setting isActive to false)
+  // deleteLanguage: async (req, res) => {
+  //   try {
+  //     const { langCode } = req.params;
 
-      // Don't allow deleting English
-      if (langCode === 'en') {
-        return res.status(400).json({
-          success: false,
-          error: 'Cannot delete English language',
-          message: 'English is the default language and cannot be deleted'
-        });
-      }
+  //     // Don't allow deleting English
+  //     if (langCode === 'en') {
+  //       return res.status(400).json({
+  //         success: false,
+  //         error: 'Cannot delete English language',
+  //         message: 'English is the default language and cannot be deleted'
+  //       });
+  //     }
 
-      const language = await Language.findOneAndUpdate(
-        { code: langCode },
-        { isActive: false },
-        { new: true }
-      );
+  //     const language = await Language.findOneAndUpdate(
+  //       { code: langCode },
+  //       { isActive: false },
+  //       { new: true }
+  //     );
 
-      if (!language) {
-        return res.status(404).json({
-          success: false,
-          error: 'Language not found'
-        });
-      }
+  //     if (!language) {
+  //       return res.status(404).json({
+  //         success: false,
+  //         error: 'Language not found'
+  //       });
+  //     }
 
-      res.json({
-        success: true,
-        message: `Language '${langCode}' deactivated successfully`,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('Delete language error:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Failed to delete language',
-        message: error.message
-      });
-    }
-  }
+  //     res.json({
+  //       success: true,
+  //       message: `Language '${langCode}' deactivated successfully`,
+  //       timestamp: new Date().toISOString()
+  //     });
+  //   } catch (error) {
+  //     console.error('Delete language error:', error);
+  //     res.status(500).json({
+  //       success: false,
+  //       error: 'Failed to delete language',
+  //       message: error.message
+  //     });
+  //   }
+  // }
 };
 
 module.exports = languageController;
